@@ -461,25 +461,42 @@ div[data-baseweb="select"] > div {
     margin-top: 26px;
 }
 
+/* Tablet / small desktop: keep the two-column form. */
 @media (max-width: 900px) {
     .block-container {
-        padding-top: .75rem;
-        padding-left: .85rem;
-        padding-right: .85rem;
+        padding-top: .9rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
         padding-bottom: 2.5rem;
     }
-    .cm-hero {padding: 24px 20px 22px; border-radius: 16px; margin-bottom: 14px;}
+    .cm-hero {padding: 26px 24px 24px; border-radius: 17px; margin-bottom: 14px;}
+    .cm-hero h1 {font-size: 30px;}
+    .cm-hero p {font-size: 14px;}
+    .cm-kpi-grid {grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px;}
+    .cm-kpi {padding: 14px 13px; min-height: 88px;}
+    .cm-kpi-value {font-size: 20px;}
+}
+
+/* Actual phone width: stack Streamlit columns to one full-width column. */
+@media (max-width: 640px) {
+    .block-container {
+        padding-top: .7rem;
+        padding-left: .75rem;
+        padding-right: .75rem;
+        padding-bottom: 2.3rem;
+    }
+    .cm-hero {padding: 22px 18px 20px; border-radius: 15px;}
     .cm-brand {font-size: 16px;}
     .cm-badge {font-size: 11px; padding: 4px 8px;}
-    .cm-hero h1 {font-size: 28px; line-height: 1.25;}
+    .cm-hero h1 {font-size: 27px; line-height: 1.25;}
     .cm-hero p {font-size: 14px; line-height: 1.7;}
     .cm-proof-row {gap: 7px; margin-top: 16px;}
     .cm-proof {font-size: 11px; padding: 6px 9px;}
 
-    /* Streamlit columns are too narrow on phones. Stack them. */
     div[data-testid="stHorizontalBlock"] {
         flex-direction: column !important;
         gap: .7rem !important;
+        width: 100% !important;
     }
     div[data-testid="column"] {
         width: 100% !important;
@@ -490,13 +507,11 @@ div[data-baseweb="select"] > div {
     .cm-section-title {font-size: 20px;}
     .cm-section-sub {font-size: 13px; margin-bottom: 12px;}
     .cm-result-hero {padding: 20px 18px; border-left-width: 5px;}
-    .cm-result-price {font-size: 42px;}
+    .cm-result-price {font-size: 40px;}
     .cm-result-note {font-size: 12px; line-height: 1.55;}
-    .cm-kpi-grid {grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px;}
-    .cm-kpi {padding: 14px 13px; min-height: 88px;}
-    .cm-kpi-value {font-size: 20px;}
+    .cm-kpi-grid {grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px;}
     .cm-table {font-size: 13px;}
-    .cm-table th, .cm-table td {padding: 10px 11px;}
+    .cm-table th, .cm-table td {padding: 10px 9px;}
     .cm-mini-card {padding: 14px 15px;}
     .cm-mini-card .value {font-size: 22px;}
     .cm-pro-card {padding: 17px 16px;}
@@ -808,7 +823,7 @@ with main_tab:
     )
     st.link_button(
         "Pro先行案内・機能希望を送る →",
-        "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform?usp=dialog",
+        "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform",
         use_container_width=True,
     )
 
