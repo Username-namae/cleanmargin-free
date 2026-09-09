@@ -425,6 +425,34 @@ div[data-baseweb="select"] > div {
     margin-top: 4px;
 }
 
+.cm-pro-card {
+    background: linear-gradient(135deg, #F0FDFA 0%, #F8FAFC 100%);
+    border: 1px solid #B7E4D8;
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin: 18px 0 6px;
+}
+.cm-pro-eyebrow {
+    color: var(--cm-brand-dark);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.cm-pro-title {
+    color: var(--cm-navy);
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.45;
+    margin-bottom: 5px;
+}
+.cm-pro-copy {
+    color: var(--cm-muted);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
 .cm-footer-note {
     color: #7A8699;
     font-size: 12px;
@@ -433,11 +461,45 @@ div[data-baseweb="select"] > div {
     margin-top: 26px;
 }
 
-@media (max-width: 760px) {
-    .block-container {padding-top: 1rem; padding-left: 1rem; padding-right: 1rem;}
-    .cm-hero {padding: 26px 22px 24px; border-radius: 17px;}
-    .cm-kpi-grid {grid-template-columns: repeat(2, minmax(0,1fr));}
-    .cm-result-hero {padding: 20px 20px;}
+@media (max-width: 900px) {
+    .block-container {
+        padding-top: .75rem;
+        padding-left: .85rem;
+        padding-right: .85rem;
+        padding-bottom: 2.5rem;
+    }
+    .cm-hero {padding: 24px 20px 22px; border-radius: 16px; margin-bottom: 14px;}
+    .cm-brand {font-size: 16px;}
+    .cm-badge {font-size: 11px; padding: 4px 8px;}
+    .cm-hero h1 {font-size: 28px; line-height: 1.25;}
+    .cm-hero p {font-size: 14px; line-height: 1.7;}
+    .cm-proof-row {gap: 7px; margin-top: 16px;}
+    .cm-proof {font-size: 11px; padding: 6px 9px;}
+
+    /* Streamlit columns are too narrow on phones. Stack them. */
+    div[data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: .7rem !important;
+    }
+    div[data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }
+
+    .cm-section-title {font-size: 20px;}
+    .cm-section-sub {font-size: 13px; margin-bottom: 12px;}
+    .cm-result-hero {padding: 20px 18px; border-left-width: 5px;}
+    .cm-result-price {font-size: 42px;}
+    .cm-result-note {font-size: 12px; line-height: 1.55;}
+    .cm-kpi-grid {grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px;}
+    .cm-kpi {padding: 14px 13px; min-height: 88px;}
+    .cm-kpi-value {font-size: 20px;}
+    .cm-table {font-size: 13px;}
+    .cm-table th, .cm-table td {padding: 10px 11px;}
+    .cm-mini-card {padding: 14px 15px;}
+    .cm-mini-card .value {font-size: 22px;}
+    .cm-pro-card {padding: 17px 16px;}
 }
 </style>
 """,
@@ -577,9 +639,9 @@ with main_tab:
     st.markdown(
         f"""
 <div class="cm-kpi-grid">
-  <div class="cm-kpi"><div class="cm-kpi-label">1回の必要人工</div><div class="cm-kpi-value">{result['person_hours_per_visit']:.2f} 人時</div></div>
+  <div class="cm-kpi"><div class="cm-kpi-label">1回の必要人時</div><div class="cm-kpi-value">{result['person_hours_per_visit']:.2f} 人時</div></div>
   <div class="cm-kpi"><div class="cm-kpi-label">1回の所要時間</div><div class="cm-kpi-value">{result['clock_hours_per_visit']:.2f} 時間</div></div>
-  <div class="cm-kpi"><div class="cm-kpi-label">月間必要人工</div><div class="cm-kpi-value">{result['monthly_person_hours']:.1f} 人時</div></div>
+  <div class="cm-kpi"><div class="cm-kpi-label">月間人時</div><div class="cm-kpi-value">{result['monthly_person_hours']:.1f} 人時</div></div>
   <div class="cm-kpi"><div class="cm-kpi-label">月間作業回数</div><div class="cm-kpi-value">{result['monthly_visits']:.2f} 回</div></div>
 </div>
 """,
@@ -730,8 +792,24 @@ with main_tab:
             st.caption("現在の実質人件費と異なる金額を入力すると、改定後の原価と推奨月額を表示します。")
 
     st.markdown(
-        '<div class="cm-callout good"><strong>第一版の考え方：</strong>「面積 × 自社の作業効率」で必要人工を算出します。トイレ数、床材、什器、夜間作業などは現場差が大きいため、まずは自社実績に合わせた作業効率で調整してください。</div>',
+        '<div class="cm-callout good"><strong>第一版の考え方：</strong>「面積 × 自社の作業効率」で必要人時を算出します。トイレ数、床材、什器、夜間作業などは現場差が大きいため、まずは自社実績に合わせた作業効率で調整してください。</div>',
         unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+<div class="cm-pro-card">
+  <div class="cm-pro-eyebrow">CleanMargin Pro</div>
+  <div class="cm-pro-title">この見積条件を保存して、次回は入力せずに使いたい方へ</div>
+  <div class="cm-pro-copy">案件保存・自社設定保存・見積書PDFなどの業務向け機能を検討しています。先行案内と、必要な機能の希望を受け付けています。</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    st.link_button(
+        "Pro先行案内・機能希望を送る →",
+        "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform",
+        use_container_width=True,
     )
 
 
@@ -892,7 +970,7 @@ with simple_tab:
 # =============================================================================
 st.markdown("<br>", unsafe_allow_html=True)
 with st.container(border=True):
-    st.markdown("#### 今後追加予定の業務向け機能")
+    st.markdown("#### Pro版で予定している機能")
     p1, p2, p3 = st.columns(3)
     p1.markdown("**案件を保存**  \n毎回同じ条件を入力せず、過去見積を再利用。")
     p2.markdown("**見積書PDF**  \n計算結果から、そのまま提出用見積へ。")
