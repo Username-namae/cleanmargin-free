@@ -4,14 +4,113 @@ import json
 
 import streamlit as st
 
-from calculator import (
-    FREQUENCY_TO_MONTHLY_VISITS,
-    CompanySettings,
-    JobConditions,
-    calculate_quote,
-    recurring_cleaning_quote,
-    simulate_offer,
-)
+from calculator import CompanySettings, JobConditions, calculate_quote, simulate_offer
+
+
+# 定期清掃用の計算はこのファイル内で完結させます。
+# calculator.py が旧版でも新版でも動作するようにするためです。
+FREQUENCY_TO_MONTHLY_VISITS = {
+    "月1回": 1.0,
+    "月2回": 2.0,
+    "週1回": 52.0 / 12.0,
+    "週2回": 2.0 * 52.0 / 12.0,
+    "週3回": 3.0 * 52.0 / 12.0,
+    "週5回": 5.0 * 52.0 / 12.0,
+    "週6回": 6.0 * 52.0 / 12.0,
+    "毎日": 365.0 / 12.0,
+}
+
+
+def _round_up_100(value: float) -> int:
+    import math
+    return int(math.ceil(max(0.0, value) / 100.0) * 100)
+
+
+def recurring_cleaning_quote(
+    *,
+    area_sqm,
+    productivity_sqm_per_person_hour,
+    crew_size,
+    monthly_visits,
+    labor_cost_per_person_hour,
+    monthly_material_cost,
+    monthly_transport_cost,
+    monthly_other_direct_cost,
+    overhead_rate,
+    target_margin,
+    current_contract_price=0.0,
+    future_labor_cost_per_person_hour=None,
+):
+    area_sqm = max(0.0, float(area_sqm))
+    productivity = max(0.000001, float(productivity_sqm_per_person_hour))
+    crew_size = max(1, int(crew_size))
+    monthly_visits = max(0.0, float(monthly_visits))
+    labor_rate = max(0.0, float(labor_cost_per_person_hour))
+    materials = max(0.0, float(monthly_material_cost))
+    transport = max(0.0, float(monthly_transport_cost))
+    other_direct = max(0.0, float(monthly_other_direct_cost))
+    overhead_rate = min(max(float(overhead_rate), 0.0), 5.0)
+    target_margin = min(max(float(target_margin), 0.0), 0.95)
+    current_contract_price = max(0.0, float(current_contract_price))
+
+    person_hours_per_visit = area_sqm / productivity
+    clock_hours_per_visit = person_hours_per_visit / crew_size
+    monthly_person_hours = person_hours_per_visit * monthly_visits
+    monthly_labor_cost = monthly_person_hours * labor_rate
+    direct_cost = monthly_labor_cost + materials + transport + other_direct
+    overhead_cost = direct_cost * overhead_rate
+    total_cost = direct_cost + overhead_cost
+    recommended_price = _round_up_100(total_cost / (1.0 - target_margin))
+    target_profit = recommended_price - total_cost
+    price_per_visit = recommended_price / monthly_visits if monthly_visits > 0 else 0.0
+    monthly_price_per_sqm = recommended_price / area_sqm if area_sqm > 0 else 0.0
+
+    current_profit = current_contract_price - total_cost if current_contract_price > 0 else None
+    current_margin = current_profit / current_contract_price if current_contract_price > 0 else None
+
+    future = None
+    if future_labor_cost_per_person_hour is not None:
+        future_labor_rate = max(0.0, float(future_labor_cost_per_person_hour))
+        future_labor_cost = monthly_person_hours * future_labor_rate
+        future_direct_cost = future_labor_cost + materials + transport + other_direct
+        future_overhead_cost = future_direct_cost * overhead_rate
+        future_total_cost = future_direct_cost + future_overhead_cost
+        future_recommended_price = _round_up_100(future_total_cost / (1.0 - target_margin))
+        future = {
+            "labor_rate": future_labor_rate,
+            "labor_cost": future_labor_cost,
+            "total_cost": future_total_cost,
+            "recommended_price": future_recommended_price,
+            "cost_increase": future_total_cost - total_cost,
+            "price_increase": future_recommended_price - recommended_price,
+            "current_contract_gap": (
+                future_recommended_price - current_contract_price
+                if current_contract_price > 0 else None
+            ),
+        }
+
+    return {
+        "person_hours_per_visit": person_hours_per_visit,
+        "clock_hours_per_visit": clock_hours_per_visit,
+        "monthly_visits": monthly_visits,
+        "monthly_person_hours": monthly_person_hours,
+        "monthly_labor_cost": monthly_labor_cost,
+        "monthly_material_cost": materials,
+        "monthly_transport_cost": transport,
+        "monthly_other_direct_cost": other_direct,
+        "direct_cost": direct_cost,
+        "overhead_cost": overhead_cost,
+        "total_cost": total_cost,
+        "recommended_price": recommended_price,
+        "target_profit": target_profit,
+        "target_profit_margin": target_profit / recommended_price if recommended_price else 0.0,
+        "price_per_visit": price_per_visit,
+        "monthly_price_per_sqm": monthly_price_per_sqm,
+        "current_contract_price": current_contract_price,
+        "current_profit": current_profit,
+        "current_margin": current_margin,
+        "future": future,
+    }
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
