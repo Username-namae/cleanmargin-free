@@ -11,6 +11,7 @@ from calculator import (
     simulate_offer,
 )
 
+
 # =========================================================
 # 基本設定
 # =========================================================
@@ -23,6 +24,7 @@ st.set_page_config(
     page_icon="🧹",
     layout="wide",
 )
+
 
 # =========================================================
 # デザインCSS
@@ -130,7 +132,7 @@ st.markdown(
     .price {
         color: #0F172A;
         font-size: 60px;
-        font-weight: 850;
+        font-weight: 800;
         line-height: 1.15;
         letter-spacing: -0.04em;
         margin: 8px 0;
@@ -149,11 +151,22 @@ st.markdown(
         border: 1px solid #BFDBFE;
     }
 
+    .pro-card h2 {
+        margin-top: 0;
+        color: #0F172A;
+    }
+
+    .pro-card p {
+        color: #475569;
+        line-height: 1.8;
+    }
+
     .footer-note {
         text-align: center;
         color: #94A3B8;
         font-size: 13px;
         margin-top: 30px;
+        line-height: 1.8;
     }
 
     @media (max-width: 700px) {
@@ -189,6 +202,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
 
 # =========================================================
 # データ読み込み
@@ -229,46 +243,46 @@ def load_conditions():
 services = load_services()
 condition_master = load_conditions()
 
+
 # =========================================================
 # HERO
 # =========================================================
 
-st.markdown(
+st.html(
     """
-    <div class="hero">
-        <div class="hero-badge">
-            清掃事業者向け・無料
-        </div>
+<div class="hero">
+<div class="hero-badge">清掃事業者向け・無料</div>
 
-        <h1>
-            清掃業の見積価格を<br>
-            「感覚」から「数字」へ。
-        </h1>
+<h1>
+清掃業の見積価格を<br>
+「感覚」から「数字」へ。
+</h1>
 
-        <p>
-            人件費・移動費・材料費・固定費から、
-            利益を確保するための見積価格を自動計算。
-            値引きしても赤字にならない価格も確認できます。
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
+<p>
+人件費・移動費・材料費・固定費から、
+利益を確保するための見積価格を自動計算。<br>
+値引きしても赤字にならない価格も確認できます。
+</p>
+</div>
+"""
 )
+
 
 st.header(
     "清掃業・ハウスクリーニングの原価計算と見積価格計算"
 )
 
-st.markdown(
+
+st.html(
     """
-    <div class="intro-card">
-        CleanMarginは、清掃業者向けの無料見積計算ツールです。
-        人件費、材料費、移動費、固定費、目標利益率から、
-        清掃案件の原価と見積価格を計算できます。
-    </div>
-    """,
-    unsafe_allow_html=True,
+<div class="intro-card">
+CleanMarginは、清掃業者向けの無料見積計算ツールです。<br>
+人件費、材料費、移動費、固定費、目標利益率から、
+清掃案件の原価と見積価格を計算できます。
+</div>
+"""
 )
+
 
 with st.expander(
     "この計算機について",
@@ -286,20 +300,23 @@ with st.expander(
         "実案件では現場条件に応じて調整してください。"
     )
 
+
 # =========================================================
 # STEP 1 / STEP 2
 # =========================================================
 
 left, right = st.columns([1, 1])
 
+
 with left:
 
-    st.markdown(
-        '<div class="step-label">STEP 1</div>',
-        unsafe_allow_html=True,
+    st.html(
+        '<div class="step-label">STEP 1</div>'
     )
 
-    st.subheader("自社の原価設定")
+    st.subheader(
+        "自社の原価設定"
+    )
 
     labor_rate = st.number_input(
         "実質人件費（円 / 人時）",
@@ -307,8 +324,9 @@ with left:
         value=2000,
         step=100,
         help=(
-            "給与だけでなく、自分自身の労働価値や"
-            "会社負担も含めた1人1時間あたりの原価です。"
+            "給与だけでなく、"
+            "自分自身の労働価値や会社負担も含めた"
+            "1人1時間あたりの原価です。"
         ),
     )
 
@@ -359,12 +377,13 @@ with left:
 
 with right:
 
-    st.markdown(
-        '<div class="step-label">STEP 2</div>',
-        unsafe_allow_html=True,
+    st.html(
+        '<div class="step-label">STEP 2</div>'
     )
 
-    st.subheader("今回の案件条件")
+    st.subheader(
+        "今回の案件条件"
+    )
 
     occupancy = st.selectbox(
         "物件状態",
@@ -433,23 +452,27 @@ with right:
         step=100,
     )
 
+
 # =========================================================
 # STEP 3
 # =========================================================
 
-st.markdown(
-    '<div class="step-label">STEP 3</div>',
-    unsafe_allow_html=True,
+st.html(
+    '<div class="step-label">STEP 3</div>'
 )
 
-st.subheader("清掃メニュー")
+st.subheader(
+    "清掃メニュー"
+)
 
 st.caption(
     "数量が0のサービスは計算対象外です。"
 )
 
+
 selected = []
 cols = st.columns(2)
+
 
 for index, service in enumerate(services):
 
@@ -486,6 +509,7 @@ for index, service in enumerate(services):
                 }
             )
 
+
 with st.expander(
     "マスタにない作業を追加"
 ):
@@ -503,6 +527,7 @@ with st.expander(
         value=0,
         step=100,
     )
+
 
 # =========================================================
 # 計算設定
@@ -533,17 +558,20 @@ settings = CompanySettings(
     ),
 )
 
+
 conditions = JobConditions(
     occupancy_multiplier=float(
         condition_master[
             "occupancy"
         ][occupancy]
     ),
+
     dirt_multiplier=float(
         condition_master[
             "dirt"
         ][dirt]
     ),
+
     pet_additional_person_hours=float(
         condition_master[
             "pet_additional_person_hours"
@@ -551,25 +579,32 @@ conditions = JobConditions(
         if pet
         else 0.0
     ),
+
     crew_size=int(
         crew_size
     ),
+
     one_way_minutes=float(
         one_way_minutes
     ),
+
     one_way_km=float(
         one_way_km
     ),
+
     parking_cost=float(
         parking_cost
     ),
+
     subcontract_cost=float(
         subcontract_cost
     ),
+
     other_variable_cost=float(
         other_cost
     ),
 )
+
 
 result = calculate_quote(
     selected,
@@ -583,45 +618,45 @@ result = calculate_quote(
     ),
 )
 
+
 # =========================================================
-# STEP 4 / 計算結果
+# RESULT
 # =========================================================
 
 st.divider()
 
-st.markdown(
-    '<div class="step-label">RESULT</div>',
-    unsafe_allow_html=True,
+st.html(
+    '<div class="step-label">RESULT</div>'
 )
 
 st.subheader(
     "この案件の見積結果"
 )
 
-st.markdown(
+
+st.html(
     f"""
-    <div class="price-card">
+<div class="price-card">
 
-        <div class="price-label">
-            推奨見積価格
-        </div>
+<div class="price-label">
+推奨見積価格
+</div>
 
-        <div class="price">
-            ¥{result["target_price"]:,.0f}
-        </div>
+<div class="price">
+¥{result["target_price"]:,.0f}
+</div>
 
-        <div class="price-sub">
-            目標利益率
-            {settings.target_margin:.0%}
-            を確保する価格
-        </div>
+<div class="price-sub">
+目標利益率 {settings.target_margin:.0%} を確保する価格
+</div>
 
-    </div>
-    """,
-    unsafe_allow_html=True,
+</div>
+"""
 )
 
+
 m1, m2, m3 = st.columns(3)
+
 
 m1.metric(
     "推定総原価",
@@ -638,28 +673,25 @@ m3.metric(
     f'¥{result["aggressive_price"]:,.0f}',
 )
 
+
 c1, c2, c3 = st.columns(3)
+
 
 c1.metric(
     "総人時",
-    (
-        f'{result["total_person_hours"]:.2f}'
-        " 人時"
-    ),
+    f'{result["total_person_hours"]:.2f} 人時',
 )
 
 c2.metric(
     "現場作業時間",
-    (
-        f'{result["onsite_clock_hours"]:.2f}'
-        " 時間"
-    ),
+    f'{result["onsite_clock_hours"]:.2f} 時間',
 )
 
 c3.metric(
     "目標利益率",
     f'{result["target_profit_margin"]:.1%}',
 )
+
 
 with st.expander(
     "原価内訳を見る",
@@ -719,6 +751,7 @@ with st.expander(
         }
     )
 
+
 if (
     result[
         "public_price_reference"
@@ -736,20 +769,21 @@ if (
         "公開されている料金の比較参考です。"
     )
 
+
 # =========================================================
-# STEP 5 / 値引きシミュレーター
+# STEP 5
 # =========================================================
 
 st.divider()
 
-st.markdown(
-    '<div class="step-label">STEP 5</div>',
-    unsafe_allow_html=True,
+st.html(
+    '<div class="step-label">STEP 5</div>'
 )
 
 st.subheader(
     "値引きしても利益が残るか確認"
 )
+
 
 offer = st.number_input(
     "顧客への提示価格（円）",
@@ -762,6 +796,7 @@ offer = st.number_input(
     step=100,
 )
 
+
 sim = simulate_offer(
     offer,
     result[
@@ -770,7 +805,9 @@ sim = simulate_offer(
     settings.minimum_margin,
 )
 
+
 s1, s2 = st.columns(2)
+
 
 s1.metric(
     "提示価格での利益",
@@ -781,6 +818,7 @@ s2.metric(
     "提示価格での利益率",
     f'{sim["margin"]:.1%}',
 )
+
 
 if sim["acceptable"]:
 
@@ -795,67 +833,79 @@ else:
         "値引き価格または原価を再確認してください。"
     )
 
+
 # =========================================================
 # Pro版
 # =========================================================
 
-st.markdown(
+st.html(
     """
-    <div class="pro-card">
-        <h2>CleanMargin Pro</h2>
+<div class="pro-card">
 
-        <p>
-            毎回同じ原価設定を入力せず、
-            清掃会社の日常業務でそのまま使える
-            Pro版を検討しています。
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True,
+<h2>
+CleanMargin Pro
+</h2>
+
+<p>
+毎回同じ原価設定を入力せず、
+清掃会社の日常業務でそのまま使える
+Pro版を検討しています。
+</p>
+
+</div>
+"""
 )
 
+
 pro1, pro2 = st.columns(2)
+
 
 with pro1:
 
     st.markdown(
         """
-        **Pro版で追加予定**
+**Pro版で追加予定**
 
-        - 自社の人件費・利益率を保存
-        - 材料費設定を保存
-        - 案件履歴を保存
-        - 顧客管理
-        - PDF見積書
-        """
+- 自社の人件費・利益率を保存
+- 材料費設定を保存
+- 案件履歴を保存
+- 顧客管理
+- PDF見積書
+"""
     )
+
 
 with pro2:
 
     st.markdown(
         """
-        **将来追加予定**
+**将来追加予定**
 
-        - 見積時間と実績時間の比較
-        - 案件ごとの実利益
-        - サービス別平均作業時間
-        - 自社実績による標準時間補正
-        - 利益分析
-        """
+- 見積時間と実績時間の比較
+- 案件ごとの実利益
+- サービス別平均作業時間
+- 自社実績による標準時間補正
+- 利益分析
+"""
     )
+
 
 st.info(
     "現時点で料金は発生しません。"
     "Pro版についてのご意見を集めています。"
 )
 
+
 # =========================================================
 # Googleフォーム
 # =========================================================
 
-FORM_URL = "ここにGoogleフォームの回答者用URLを貼る"
+FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform?usp=dialog"
 
-if FORM_URL.startswith("https://"):
+
+if FORM_URL.startswith(
+    "https://"
+):
 
     st.link_button(
         "CleanMargin Proの先行案内・機能希望を送る",
@@ -870,21 +920,26 @@ else:
         "現在Pro版の先行登録フォームを準備中です。"
     )
 
+
 # =========================================================
 # フッター
 # =========================================================
 
 st.divider()
 
-st.markdown(
+
+st.html(
     """
-    <div class="footer-note">
-        CleanMargin Free<br><br>
-        無料版では入力した案件情報や
-        自社設定をサーバーへ保存しません。<br>
-        表示価格は入力条件と初期標準作業時間から
-        算出した参考値です。
-    </div>
-    """,
-    unsafe_allow_html=True,
+<div class="footer-note">
+
+CleanMargin Free<br><br>
+
+無料版では入力した案件情報や
+自社設定をサーバーへ保存しません。<br>
+
+表示価格は入力条件と初期標準作業時間から
+算出した参考値です。
+
+</div>
+"""
 )
