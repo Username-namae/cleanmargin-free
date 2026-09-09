@@ -808,7 +808,7 @@ with main_tab:
     )
     st.link_button(
         "Pro先行案内・機能希望を送る →",
-        "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform",
+        "https://docs.google.com/forms/d/e/1FAIpQLSe2vPhTK4t5R6Ui1uQDzSz0sf1BpHmFjDhweEuIpW6hvFpyyg/viewform?usp=dialog",
         use_container_width=True,
     )
 
