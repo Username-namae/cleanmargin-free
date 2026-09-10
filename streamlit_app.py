@@ -592,8 +592,8 @@ div[data-baseweb="select"] > div {
 st.markdown(
     """
 <div class="cm-top-nav">
-  <a class="cm-home-link" href="https://username-namae.github.io/cleanmargin-site/" target="_self" aria-label="CleanMarginホームへ戻る">← CleanMargin ホーム</a>
-  <a class="cm-guide-link" href="https://username-namae.github.io/cleanmargin-site/#articles" target="_self">見積ノウハウを見る →</a>
+  <a class="cm-home-link" href="https://username-namae.github.io/cleanmargin-site/" target="_top" aria-label="CleanMarginホームへ戻る">← CleanMargin ホーム</a>
+  <a class="cm-guide-link" href="https://username-namae.github.io/cleanmargin-site/#articles" target="_top">見積ノウハウを見る →</a>
 </div>
 """,
     unsafe_allow_html=True,
@@ -1075,6 +1075,6 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="cm-return-home"><a href="https://username-namae.github.io/cleanmargin-site/" target="_self">← CleanMarginホームページへ戻る</a></div>',
+    '<div class="cm-return-home"><a href="https://username-namae.github.io/cleanmargin-site/" target="_top">← CleanMarginホームページへ戻る</a></div>',
     unsafe_allow_html=True,
 )
