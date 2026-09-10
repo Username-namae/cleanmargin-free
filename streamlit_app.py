@@ -198,6 +198,68 @@ html, body, [class*="css"] {
 #MainMenu, footer {visibility: hidden;}
 header[data-testid="stHeader"] {background: transparent;}
 
+.cm-top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 12px;
+}
+.cm-home-link, .cm-guide-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none !important;
+    border-radius: 10px;
+    padding: 9px 13px;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.2;
+    transition: all .18s ease;
+}
+.cm-home-link {
+    color: var(--cm-navy) !important;
+    background: #FFFFFF;
+    border: 1px solid var(--cm-border);
+    box-shadow: 0 3px 12px rgba(15,39,71,.04);
+}
+.cm-home-link:hover {
+    border-color: #B7E4D8;
+    background: #F7FCFA;
+    color: var(--cm-brand-dark) !important;
+}
+.cm-guide-link {
+    color: var(--cm-brand-dark) !important;
+    background: var(--cm-brand-soft);
+    border: 1px solid #B7E4D8;
+}
+.cm-guide-link:hover {
+    background: #DFF7F0;
+}
+.cm-return-home {
+    text-align: center;
+    margin: 16px 0 4px;
+}
+.cm-return-home a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid var(--cm-border);
+    border-radius: 11px;
+    background: #FFFFFF;
+    color: var(--cm-navy) !important;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none !important;
+}
+.cm-return-home a:hover {
+    border-color: #B7E4D8;
+    color: var(--cm-brand-dark) !important;
+    background: #F7FCFA;
+}
+
 .cm-hero {
     background: linear-gradient(135deg, #0F2747 0%, #123C59 56%, #0F766E 100%);
     border-radius: 22px;
@@ -485,6 +547,8 @@ div[data-baseweb="select"] > div {
         padding-right: .75rem;
         padding-bottom: 2.3rem;
     }
+    .cm-top-nav {margin-bottom: 9px; gap: 8px;}
+    .cm-home-link, .cm-guide-link {padding: 8px 10px; font-size: 12px;}
     .cm-hero {padding: 22px 18px 20px; border-radius: 15px;}
     .cm-brand {font-size: 16px;}
     .cm-badge {font-size: 11px; padding: 4px 8px;}
@@ -517,6 +581,20 @@ div[data-baseweb="select"] > div {
     .cm-pro-card {padding: 17px 16px;}
 }
 </style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+# =============================================================================
+# Navigation / return to website
+# =============================================================================
+st.markdown(
+    """
+<div class="cm-top-nav">
+  <a class="cm-home-link" href="https://username-namae.github.io/cleanmargin-site/" target="_self" aria-label="CleanMarginホームへ戻る">← CleanMargin ホーム</a>
+  <a class="cm-guide-link" href="https://username-namae.github.io/cleanmargin-site/#articles" target="_self">見積ノウハウを見る →</a>
+</div>
 """,
     unsafe_allow_html=True,
 )
@@ -993,5 +1071,10 @@ with st.container(border=True):
 
 st.markdown(
     '<div class="cm-footer-note">CleanMargin 無料版では入力内容をサーバーに保存しません。計算結果は見積判断の補助としてご利用ください。</div>',
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    '<div class="cm-return-home"><a href="https://username-namae.github.io/cleanmargin-site/" target="_self">← CleanMarginホームページへ戻る</a></div>',
     unsafe_allow_html=True,
 )
